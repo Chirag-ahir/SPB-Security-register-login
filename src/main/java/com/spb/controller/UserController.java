@@ -31,14 +31,24 @@ public class UserController {
 
 	@PostMapping("/register")
 	public String register(@ModelAttribute UserDTO user, HttpSession session) {
-
-		// sending encrypted password into db
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRole("ROLE_USER");
-
-		userRepository.save(user);
-		session.setAttribute("message", "User Registerd Successfully");
-		return "redirect:/login";
+		
+		//checking if email alredy in db or not
+		UserDTO storedUserDetails = userRepository.findByEmail(user.getEmail());
+		if(storedUserDetails != null) {
+			//throw new RuntimeException("Record alredy exists");
+			session.setAttribute("message", "User alredy exists with this email. Please use unique email.");
+			return "redirect:/";
+		}
+		else {
+			// sending encrypted password into db
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			user.setRole("ROLE_USER");
+			
+			userRepository.save(user);
+			session.setAttribute("message", "User Registerd Successfully");
+			return "redirect:/";			
+		}
+		
 	}
 
 }

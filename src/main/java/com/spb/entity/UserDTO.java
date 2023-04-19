@@ -19,14 +19,11 @@ public class UserDTO {
 	private String gender;
 	private String dob;
 	private String address;
+	@Column(nullable=false,unique = true)
 	private String email;
 	private String password;
 	private String role;
 
-	public UserDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public int getId() {
 		return id;
