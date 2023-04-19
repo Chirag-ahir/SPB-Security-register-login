@@ -21,8 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 			// Getting object of user from DB based on email of user
 			UserDTO user = userRepository.findByEmail(email);
-			System.out.println(email);
-			System.out.println(user);
 
 			if (user==null) {
 				throw new UsernameNotFoundException("Sorry! User not available with this email.");
